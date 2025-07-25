@@ -116,6 +116,9 @@ const Clients = () => {
         const isFirstRow = i < columns;
         const isLastRow = i >= totalSlots - columns;
 
+
+
+        
         items.push(
           <div
             key={clientIndex}
