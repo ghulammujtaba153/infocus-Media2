@@ -347,7 +347,7 @@ const Navbar = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1, ease: 'easeInOut' }}
-            className="fixed top-0 left-0 w-full h-screen bg-black z-40 flex items-center justify-center lg:w-full sm:w-[390px] md:w-[768px] "
+            className="fixed top-0 left-0 w-full h-screen bg-black z-40 flex items-center justify-center w-full "
           >
             <AnimatePresence>
               {menuOpen && (

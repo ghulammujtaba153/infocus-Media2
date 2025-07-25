@@ -34,6 +34,8 @@ const VacanciesSection = () => {
   const [openId, setOpenId] = useState(null);
   const [selectedJob, setSelectedJob] = useState(null); // store the clicked job
   const [showToast, setShowToast] = useState(false);
+  const [isModalClosing, setIsModalClosing] = useState(false);
+  const [isModalOpening, setIsModalOpening] = useState(false);
 
   const toggleOpen = (id) => {
     setOpenId(openId === id ? null : id);
@@ -44,16 +46,37 @@ const VacanciesSection = () => {
     setTimeout(() => setShowToast(false), 4000);
   };
 
+  const handleModalClose = () => {
+    setIsModalClosing(true);
+    setTimeout(() => {
+      setSelectedJob(null);
+      setIsModalClosing(false);
+    }, 300); // 300ms fade out duration
+  };
+
+  const handleApplyClick = (job) => {
+    setSelectedJob(job);
+    setIsModalOpening(true);
+    setTimeout(() => {
+      setIsModalOpening(false);
+    }, 50); // Small delay to trigger fade in
+  };
+
   return (
     <section className="relative bg-white py-20">
       {/* Modal */}
       {selectedJob && (
-        <ApplyingModal
-          id={selectedJob.id}
-          title={selectedJob.title}
-          onClose={() => setSelectedJob(null)}
-          onApplySuccess={handleApplySuccess}
-        />
+        <div className={`transition-opacity duration-300 ease-in-out ${
+          isModalClosing ? 'opacity-0' : 
+          isModalOpening ? 'opacity-0' : 'opacity-100'
+        }`}>
+          <ApplyingModal
+            id={selectedJob.id}
+            title={selectedJob.title}
+            onClose={handleModalClose}
+            onApplySuccess={handleApplySuccess}
+          />
+        </div>
       )}
       {showToast && (
         <Notification
@@ -94,47 +117,51 @@ const VacanciesSection = () => {
                   className="border-b border-gray-200 rounded-lg overflow-hidden"
                 >
                   <div
-                    className="flex items-center justify-between p-4 cursor-pointer transition"
+                    className="flex items-center justify-between p-4 cursor-pointer transition-all duration-300 ease-in-out hover:bg-gray-50"
                     onClick={() => toggleOpen(job.id)}
                   >
                     <h3 className="text-lg font-semibold">{job.title}</h3>
                     <div className="relative w-5 h-5 flex items-center justify-center">
                       {/* horizontal bar */}
-                      <div className="absolute w-full h-[2px] bg-black" />
+                      <div className="absolute w-full h-[2px] bg-black transition-transform duration-300 ease-in-out" />
                       {/* vertical bar for plus */}
-                      {openId !== job.id && (
-                        <div className="absolute h-full w-[2px] bg-black" />
-                      )}
+                      <div className={`absolute h-full w-[2px] bg-black transition-all duration-300 ease-in-out ${
+                        openId === job.id ? 'opacity-0 rotate-90' : 'opacity-100 rotate-0'
+                      }`} />
                     </div>
                   </div>
 
-                  {openId === job.id && (
-                    <div className="p-4 border-t border-gray-200 bg-white text-sm space-y-2">
+                  <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                    openId === job.id 
+                      ? 'max-h-96 opacity-100' 
+                      : 'max-h-0 opacity-0'
+                  }`}>
+                    <div className="p-4 border-t border-gray-200 bg-white text-sm space-y-2 transform transition-transform duration-300 ease-in-out">
                       <div className="w-full flex flex-col md:flex-row text-[16px] md:text-[18px] lg:[text-22px] justify-between gap-4">
                         <div className="w-full">
-                          <p className="font-semibold text-gray-400">
+                          <p className="font-bold text-[16px] md:text-[18px] lg:[text-22px] sub-heading tracking-wide text-gray-400">
                             LOCATION
                           </p>
                           <p>{job.location}</p>
                         </div>
 
                         <div className="w-full">
-                          <p className="font-semibold text-gray-400">
+                          <p className="font-bold text-[16px] md:text-[18px] lg:[text-22px] sub-heading tracking-wide text-gray-400">
                             EMPLOYMENT TYPE
                           </p>
-                          <p>{job.type}</p>
+                          <p className="sub-heading">{job.type}</p>
                         </div>
                       </div>
 
                       <div>
-                        <p className="font-semibold text-gray-400 text-[16px] md:text-[18px] lg:[text-22px]">ABOUT ROLE</p>
-                        <p className="text-[16px] md:text-[18px] lg:[text-22px]">{job.rote}</p>
+                        <p className="font-bold sub-heading tracking-wide mt-5 text-[16px] md:text-[18px] lg:[text-22px] text-gray-400">ABOUT ROLE</p>
+                        <p className="text-[16px] md:text-[18px] lg:[text-22px] sub-heading">{job.rote}</p>
                       </div>
 
                       <div className="flex flex-wrap gap-4 mt-4">
                         <button
-                          onClick={() => setSelectedJob(job)}
-                          className="font-semibold bg-black text-white px-4 py-2 rounded-md hover:opacity-90 text-[16px] md:text-[18px] lg:[text-22px]"
+                          onClick={() => handleApplyClick(job)}
+                          className="font-semibold cursor-pointer hover:bg-gray-200 hover:text-black bg-black text-white px-4 py-2 rounded-md hover:opacity-90 text-[16px] md:text-[18px] lg:[text-22px]"
                         >
                           Apply Now
                         </button>
@@ -142,13 +169,13 @@ const VacanciesSection = () => {
                           href="https://www.linkedin.com/company/infocusmediaae/"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="font-semibold text-black bg-gray-200 px-4 py-2 rounded-md hover:opacity-90 text-[16px] md:text-[18px] lg:[text-22px]"
+                          className="font-semibold text-black bg-gray-200 cursor-pointer hover:bg-black hover:text-white px-4 py-2 rounded-md hover:opacity-90 text-[16px] md:text-[18px] lg:[text-22px]"
                         >
                           Read More
                         </a>
                       </div>
                     </div>
-                  )}
+                  </div>
                 </div>
               ))}
             </div>

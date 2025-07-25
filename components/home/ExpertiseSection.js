@@ -74,7 +74,7 @@ const ExpertiseSection = () => {
           </div>
           <div className="w-full lg:w-1/3 h-screen">
             <video
-              src="/expertise-animations/Production.mp4"
+              src="/expertise-animations/Production_3.mp4"
               className="w-full h-full object-cover"
               autoPlay
               loop

@@ -10,16 +10,18 @@ const HeroSection = () => {
           </h1>
         </div>
 
-        <div className='w-full lg:w-1/2 space-y-2 md:space-y-3'>
-          <h2 className='text-[16px] md:text-[18px] lg:text-[22px] font-semibold uppercase tracking-wide'>
+        <div className='w-full lg:w-1/2 space-y-2 md:space-y-3 sub-heading'>
+          <h2 className='text-[16px] font-bold md:text-[18px] lg:text-[22px] font-semibold uppercase tracking-wide'>
             contact@infocusmedia.ae
           </h2>
-          <h2 className='text-[16px] md:text-[18px] lg:text-[22px] font-semibold uppercase tracking-wide'>
+          <div className='flex flex-col gap-0'>
+          <h2 className='text-[16px] font-bold md:text-[18px] lg:text-[22px] font-semibold uppercase tracking-wide'>
             +971 (04) 3300 409
           </h2>
-          <h2 className='text-[16px] md:text-[18px] lg:text-[22px] font-semibold uppercase tracking-wide'>
+          <h2 className='text-[16px] font-bold md:text-[18px] lg:text-[22px] font-semibold uppercase tracking-wide'>
             Mon-Fri 8AM-6PM
           </h2>
+          </div>
         </div>
       </div>
     </div>

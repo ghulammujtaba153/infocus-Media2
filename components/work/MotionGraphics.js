@@ -25,7 +25,7 @@ const MotionGraphics = () => {
   return (
     <div className="flex flex-col w-full px-6 my-8">
       {/* Grid layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 border-t border-b border-gray-200">
+      <div className="grid grid-cols-1 xl:grid-cols-2 border-t border-b border-gray-200">
         {data.slice(0, visibleCount).map((item, index) => {
           const isEven = index % 2 === 0;
 
@@ -38,8 +38,8 @@ const MotionGraphics = () => {
             >
               {/* Text */}
               <div className="md:w-1/2 w-full flex md:justify-end">
-                <div className="flex gap-10 md:gap-0 md:flex-col md:text-right text-left">
-                  <p className="text-sm text-gray-500 text-[16px] md:text-[18px] lg:text-[22px] uppercase">PROJECT</p>
+                <div className="flex gap-2 sm:gap-10 md:gap-2  flex-col sm:flex-row md:flex-col md:text-right text-left">
+                  <p className="text-black/50 text-[16px] md:text-[18px] lg:text-[22px] uppercase sub-heading font-bold">PROJECT</p>
                   <h1 className="text-[40px] lg:text-[64px] font-semibold leading-[.99] capitalize">{item.title}</h1>
                 </div>
               </div>
@@ -61,7 +61,7 @@ const MotionGraphics = () => {
           onClick={handleToggle}
           className="bg-black text-white px-6 py-3 cursor-pointer hover:bg-gray-200 hover:text-black hover:scale-105 transition-transform duration-300 rounded-md font-medium text-[16px] md:text-[18px] lg:text-[22px]"
         >
-          {visibleCount >= data.length ? "See Less" : "See More!"}
+          {visibleCount >= data.length ? "See Less" : "See More"}
         </button>
       </div>
     </div>

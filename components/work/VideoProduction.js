@@ -25,20 +25,20 @@ const VideoProduction = () => {
           <React.Fragment key={index}>
             <div className='w-full h-[1px] bg-gray-200 my-6'></div>
 
-            <div className='flex  flex-col-reverse md:flex-row gap-6 w-full'>
+            <div className='flex  flex-col-reverse lg:flex-row gap-6 w-full'>
               {/* Text */}
-              <div className='md:w-1/3 w-full flex md:justify-end' >
-                <div className='flex gap-10 md:gap-0 md:flex-col md:text-right text-left'>
-                  <p className='text-[16px] md:text-[18px] lg:text-[22px] uppercase text-gray-500 md:mb-2'>Client</p>
+              <div className='md:w-1/3 w-full flex lg:justify-end' >
+                <div className='flex gap-2 md:gap-20 lg:gap-2  md:flex-row flex-col lg:flex-col lg:text-right text-left'>
+                  <p className='text-[16px] md:text-[18px] lg:text-[22px] uppercase font-bold text-black/50 tracking-wide md:mb-2'>Client</p>
                   <div className='flex flex-col leading-[1]'>
                     <h1 className='text-[40px] lg:text-[64px] font-semibold uppercase'>{item.title}</h1>
-                    <p className=' md:text-[40px] lg:text-[64px] font-bold text-gray-400'>UAE</p>
+                    <p className=' text-[40px] lg:text-[64px] font-bold text-gray-400'>UAE</p>
                   </div>
                 </div>
               </div>
 
               {/* Image */}
-              <div className='w-full md:w-2/3 h-[191px] md:h-[383px] lg:h-[750px]'>
+              <div className='w-full lg:w-2/3 h-[191px] md:h-[383px] lg:h-[750px]'>
                 <img
                   src={item.image}
                   alt={item.title || 'Case Study'}

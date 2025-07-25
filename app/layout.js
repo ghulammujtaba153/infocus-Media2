@@ -12,7 +12,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className="overflow-x-hidden">
       <head>
         {/* Removed Google Fonts <link> in favor of next/font */}
         <title>Infocus Media - Creative Agency</title>
@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
         <meta property="og:type" content="website" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body className={`relatives`}>
+      <body className={`relative`}>
         {/* 👇 Fixed background layer for mix-blend-difference to work */}
         {/* <div className="fixed inset-0 z-0 bg-red" /> */}
 

@@ -3,7 +3,7 @@ import React from "react";
 const BuilderSection = () => {
   return (
     
-    <div className="bg-[#FAFAFA] w-full h-screen px-8 flex md:flex-row flex-col items-left justify-between gap-2">
+    <div className="bg-[#FAFAFA] w-full py-10 h-[80vh] md:h-[100vh] px-8 flex md:flex-row flex-col items-left justify-between gap-2">
       <div className="md:w-1/2 md:sticky md:top-35 flex flex-col self-start">
         <h1 className=" text-2xl sm:text-3xl md:text-[40px] font-bold text-black leading-tight">
           WE ARE

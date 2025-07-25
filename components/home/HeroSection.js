@@ -14,7 +14,7 @@ export default function HeroSection() {
     const section = sectionRef.current;
     const text = textRef.current;
 
-    if (!section || !text || typeof window === 'undefined') return;
+    if (!section || !text) return;
 
     // Only run GSAP on large screens
     if (window.innerWidth < 1024) return;
@@ -24,7 +24,7 @@ export default function HeroSection() {
       const viewportWidth = window.innerWidth;
 
       const startX = 0;
-      const endX = -textWidth + viewportWidth - 10;
+      const endX = -textWidth + viewportWidth * 0.9;
 
       gsap.set(text, { attr: { x: startX } });
 
@@ -53,10 +53,11 @@ export default function HeroSection() {
   return (
     <div
       ref={sectionRef}
-      className="relative w-screen lg:w-screen md:w-[768px] sm:w-[390px] min-h-screen overflow-hidden"
+      className="relative w-screen h-screen overflow-hidden"
     >
+      
       {/* Background Video (Large Screens Only) */}
-      <video
+      {/* <video
         className="absolute inset-0 z-0 w-full h-full object-cover hidden lg:block"
         src="/media15.mp4"
         autoPlay
@@ -64,7 +65,30 @@ export default function HeroSection() {
         muted
         playsInline
         preload="auto"
-      />
+      /> */}
+
+      <div className="absolute  inset-0 w-full h-full hidden lg:block z-0">
+        <iframe
+          src="https://player.vimeo.com/video/1104379953?autoplay=1&loop=1&muted=1&background=1"
+          className="w-full h-full"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            border: 'none',
+            objectFit: 'cover',
+            minWidth: '100%',
+            minHeight: '100%',
+            transform: 'scale(1.02)' // Slight scale to ensure full coverage
+          }}
+          frameBorder="0"
+          allow="autoplay; fullscreen"
+          allowFullScreen
+          title="Background Video"
+        ></iframe>
+      </div>
 
       {/* Large Screens: Animated Text Mask */}
       <div className="absolute inset-0 z-10 hidden lg:block">
@@ -94,7 +118,7 @@ export default function HeroSection() {
                   fontWeight="bold"
                   fontFamily="inherit"
                   fill="black"
-                  className="whitespace-nowrap" 
+                  className="whitespace-nowrap"
                 >
                   Infocus Media
                   <tspan fontSize="20vw" dy="-0.65em">
@@ -116,24 +140,25 @@ export default function HeroSection() {
       </div>
 
       {/* md Screens */}
-      <div className="hidden md:flex md:w-[688] lg:hidden min-h-[220vh] md:pl-[10px] py-10 bg-white flex-col justify-start">
-        <div className="mt-[46vh] flex justify-center">
+      <div className="hidden md:flex lg:hidden min-h-[160vh] h-screen bg-white flex-col justify-center items-center">
+        <div className="mt-[-20vh] flex justify-center">
           <h1 className="text-[55vw] font-bold text-black rotate-90 leading-none">
-            Infocus Media <span className="text-[10vw] align-super">®</span>
+            Infocus Media <span className="text-[3vw] align-super">®</span>
           </h1>
         </div>
       </div>
 
       {/* sm Screens */}
-      <div className="md:hidden w-full sm:w-[390px] sm:pt-[10px] min-h-[370vh] bg-white flex flex-col justify-start">
-        <div className="mt-[65vh] flex justify-center">
-          <div className="transform rotate-90 origin-center -translate-y-[-144vw]">
+      <div className="md:hidden min-h-[330vh] h-screen bg-white flex flex-col justify-center items-center">
+        <div className="flex mt-[-5vh] justify-center">
+          <div className="transform rotate-90 origin-center">
             <h1 className="text-[100vw] font-bold text-black whitespace-nowrap">
-              Infocus Media <span className="text-[50vw] align-super">®</span>
+              Infocus Media <span className="text-[15vw] align-super">®</span>
             </h1>
           </div>
         </div>
       </div>
+
     </div>
   );
 }

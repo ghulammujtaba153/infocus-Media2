@@ -48,7 +48,7 @@ const CaseStudies = () => {
   if(loading) return <div className='flex flex-col h-screen justify-center items-center'><Loader /></div>
 
   return (
-    <section className="min-h-screen pb-0">
+    <section className="min-h-screen pb-0 w-full">
       <div className="px-4 lg:px-6 py-20">
         <div className="text-center mb-16">
           <motion.h1 
@@ -67,7 +67,7 @@ const CaseStudies = () => {
           {data.slice(0, 3).map((item, index) => (
             <motion.div 
               key={index} 
-              className="flex flex-col w-full lg:w-[568px]  md:w-[688px] sm:w-[342]" // Set fixed width
+              className="flex flex-col w-full lg:w-[668px]  " // Set fixed width
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}

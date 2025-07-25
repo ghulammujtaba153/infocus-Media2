@@ -18,13 +18,13 @@ const Footer = () => {
         <img
           src="/logo-black.png"
           alt="Infocus Media Logo"
-          className="md:w-[560px] w-full h-auto object-contain"
+          className="md:w-[300px] lg:w-[560px] w-full h-auto object-contain"
         />
 
         {/* Contact Info */}
         <div className="text-left md:text-right">
-          <p className="font-bold  text-[16px] md:text-[18px] lg:text-[22px]">+971 04 3300 409</p>
-          <p className="font-bold uppercase text-[16px] md:text-[18px] lg:text-[22px] sub-heading">contact@infocusmedia.ae</p>
+          <p className="font-bold  text-[16px] md:text-[10px] lg:text-[18px]">+971 00 000 0000</p>
+          <p className="font-bold uppercase text-[16px] md:text-[10px] lg:text-[18px] sub-heading">contact@infocusmedia.ae</p>
         </div>
       </div>
 

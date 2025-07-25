@@ -58,12 +58,11 @@ const SpotLightClients = () => {
               key={index}
               className="flex-shrink-0  w-[154px] h-[84px] lg:w-[280px] lg:h-[156px] flex items-center justify-center p-4"
             >
-              <Image
+              <img
                 src={client.logo}
                 alt={client.name}
-                width={280}
-                height={156}
-                className="max-w-full max-h-full object-contain"
+                
+                className="max-w-full max-h-full w-[170px] h-[170px] lg:w-[280px] lg:h-[155px] object-contain"
                 onError={(e) => {
                   e.target.style.display = 'none';
                 }}

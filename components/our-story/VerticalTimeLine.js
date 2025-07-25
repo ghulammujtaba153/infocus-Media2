@@ -92,7 +92,7 @@ const VerticalTimeLine = () => {
                 {item.description.map((desc, i) => (
                   <p
                     key={i}
-                    className="text-[22px] text-gray-500 max-w-[300px] leading-[1.4]"
+                    className="text-[22px] text-gray-500 max-w-[400px] leading-[1.4]"
                   >
                     {desc}
                   </p>

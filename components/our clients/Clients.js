@@ -43,6 +43,7 @@ const Clients = () => {
 
   const gridRef = useRef(null);
   const [columns, setColumns] = useState(3);
+  const [showButton, setShowButton] = useState(true);
 
   useEffect(() => {
     const updateColumnCount = () => {
@@ -57,6 +58,9 @@ const Clients = () => {
         ).length;
         setColumns(count);
       }
+      
+      // Check if screen is below sm (640px) and hide button accordingly
+      setShowButton(window.innerWidth >= 640);
     };
 
     updateColumnCount();
@@ -66,17 +70,18 @@ const Clients = () => {
 
   const renderGridItems = () => {
     const items = [];
-    const totalSlots = Math.ceil((clients.length + 1) / columns) * columns;
+    const clientsToShow = showButton ? clients.length + 1 : clients.length;
+    const totalSlots = Math.ceil(clientsToShow / columns) * columns;
     
     // For 3-column layout (below md), place button in middle of last row
-    const shouldPlaceButtonInMiddle = columns === 3;
+    const shouldPlaceButtonInMiddle = columns === 3 && showButton;
     const buttonPosition = shouldPlaceButtonInMiddle 
       ? Math.floor((totalSlots - columns) + (columns / 2)) // Middle of last row
-      : clients.length; // After all clients for other layouts
+      : showButton ? clients.length : -1; // After all clients for other layouts, -1 if no button
 
     for (let i = 0; i < totalSlots; i++) {
-      const clientIndex = i < buttonPosition ? i : i - 1;
-      const isButtonSlot = i === buttonPosition;
+      const clientIndex = showButton && i >= buttonPosition && buttonPosition !== -1 ? i - 1 : i;
+      const isButtonSlot = showButton && i === buttonPosition && buttonPosition !== -1;
       const isClient = clientIndex < clients.length && !isButtonSlot;
       
       if (isButtonSlot) {
@@ -98,7 +103,7 @@ const Clients = () => {
               border-gray-100
             `}
           >
-            <Link href={"/contacts"} className="bg-black text-white px-2 py-3 text-xs md:px-6 md:py-3 cursor-pointer hover:bg-transparent hover:text-black hover:scale-105 transition-transform duration-300 rounded-md md:font-medium text-[12px] md:text-[16px] lg:text-[18px]">
+            <Link href={"/contacts"} className="bg-black text-white px-6 py-3 text-xs md:px-6 md:py-3 cursor-pointer hover:bg-gray-200 hover:text-black hover:scale-105 transition-transform duration-300 rounded-md md:font-medium text-[12px] md:text-[16px] lg:text-[18px]">
               Join Them
             </Link>
           </div>
@@ -169,6 +174,9 @@ const Clients = () => {
       >
         {renderGridItems()}
       </div>
+      <div className="sm:hidden w-full flex items-center justify-center"><Link href={"/contacts"} className="bg-black text-white px-6 py-3 text-xs md:px-6 md:py-3 cursor-pointer hover:bg-gray-200 hover:text-black hover:scale-105 transition-transform duration-300 rounded-md md:font-medium text-[12px] md:text-[16px] lg:text-[18px]">
+              Join Them
+            </Link></div>
     </section>
   );
 };

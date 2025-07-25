@@ -98,23 +98,28 @@ const WhatWeDo = () => {
             return (
               <div
                 key={index}
-                onMouseEnter={() => setHoveredIndex(index)}
                 className={`
-        flex lg:flex-row flex-col gap-3 lg:gap-8 p-6  items-start transition duration-300 sub-heading cursor-default
-        ${
-          hoveredIndex !== null && hoveredIndex !== index
-            ? "opacity-30"
-            : "opacity-100"
-        }
-        ${!isFirstRow ? "border-t" : ""}
-        ${!isFirstCol ? "border-l" : ""}
-        ${!isLastCol ? "border-r" : ""}
-        ${isAloneInRow ? "border-" : ""}
-        ${isSecondLastItem ? "border-t" : ""}
-        ${isLastItem? "border-t" : ""}
-        border-gray-50/20
-      `}
+                  relative cursor-default
+                  ${!isFirstRow ? "border-t" : ""}
+                  ${!isFirstCol ? "border-l" : ""}
+                  ${!isLastCol ? "border-r" : ""}
+                  ${isAloneInRow ? "border-" : ""}
+                  ${isSecondLastItem ? "border-t" : ""}
+                  ${isLastItem? "border-t" : ""}
+                  border-gray-50/20
+                `}
               >
+                <div
+                  onMouseEnter={() => setHoveredIndex(index)}
+                  className={`
+                    flex lg:flex-row flex-col gap-3 lg:gap-8 p-6 items-start transition duration-300 sub-heading
+                    ${
+                      hoveredIndex !== null && hoveredIndex !== index
+                        ? "opacity-30"
+                        : "opacity-100"
+                    }
+                  `}
+                >
                 <div className="flex lg:flex-col justify-between h-full ">
                   {service.icon && <Image
                     src={service.icon}
@@ -131,6 +136,7 @@ const WhatWeDo = () => {
                   <p className="text-[18px] md:text-[20px] lg:text-[22px] px-1 lg:block hidden leading-[1.2] text-white/50">
                     {service.description}
                   </p>
+                </div>
                 </div>
               </div>
             );

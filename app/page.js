@@ -19,7 +19,9 @@ export default function Home() {
   
 
   return (
-    <div className="relative lg:w-full md:w-[786px] sm:w-[390px] ">
+    <div className="relative w-full ">
+
+      
       
       <HeroSection/>
      
@@ -27,7 +29,7 @@ export default function Home() {
       <TopSection/> 
       <WorkSection/>
       <SpotLightClients/> 
-      {/* <ExpertiseSection/> */}
+      <ExpertiseSection/>
       {/* <CaseStudies/> */}
 
      

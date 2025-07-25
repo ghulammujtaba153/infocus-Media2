@@ -38,8 +38,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# media files
-*.mp4
+public/media15.mp4
+
+
 # vercel
 .vercel
 
