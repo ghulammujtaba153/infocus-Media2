@@ -8,11 +8,11 @@ export async function PATCH(request) {
   try {
     await connectDB();
 
-    const { _id, title, description, content, image, video } = await request.json();
+    const { _id, title, description, content, image } = await request.json();
 
     const updatedCaseStudy = await CaseStudy.findByIdAndUpdate(
       _id,
-      { title, description, content, image , video},
+      { title, description, content, image },
       { new: true }
     );
 

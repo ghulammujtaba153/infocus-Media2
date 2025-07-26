@@ -137,6 +137,46 @@ const WorkPage = () => {
     ).join(' ');
   };
 
+  // Function to get the primary media for display
+  const getPrimaryMedia = (work) => {
+    // Priority 1: Single video link (video-production, motion-graphics, event-coverage)
+    if (work.videoLink) {
+      return { type: 'video', url: work.videoLink };
+    }
+    
+    // Priority 2: Multiple video links - show first (animation)
+    if (work.videoLinks && work.videoLinks.length > 0) {
+      return { type: 'video', url: work.videoLinks[0] };
+    }
+    
+    // Priority 3: Images - show first (social-media)
+    if (work.images && work.images.length > 0) {
+      return { type: 'image', url: work.images[0] };
+    }
+    
+    return null;
+  };
+
+  // Function to get video embed URL for different platforms
+  const getVideoEmbedUrl = (url) => {
+    if (!url) return null;
+    
+    // YouTube
+    const youtubeMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/);
+    if (youtubeMatch) {
+      return `https://www.youtube.com/embed/${youtubeMatch[1]}`;
+    }
+    
+    // Vimeo
+    const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
+    if (vimeoMatch) {
+      return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
+    }
+    
+    // Return original URL for other platforms
+    return url;
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -210,28 +250,44 @@ const WorkPage = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredWorks.map(work => (
-            <div key={work._id} className="bg-white rounded-lg shadow border overflow-hidden hover:shadow-lg transition">
-              <div className="relative">
-                {work.thumbnail ? (
-                  <img
-                    src={work.thumbnail}
-                    alt={work.title}
-                    className="w-full h-48 object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
-                    <span className="text-gray-500">No thumbnail</span>
+          {filteredWorks.map(work => {
+            const primaryMedia = getPrimaryMedia(work);
+            
+            return (
+              <div key={work._id} className="bg-white rounded-lg shadow border overflow-hidden hover:shadow-lg transition">
+                <div className="relative">
+                  {primaryMedia ? (
+                    primaryMedia.type === 'video' ? (
+                      <div className="w-full h-48 bg-black">
+                        <iframe
+                          src={getVideoEmbedUrl(primaryMedia.url)}
+                          className="w-full h-full"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          title={work.title}
+                        />
+                      </div>
+                    ) : (
+                      <img
+                        src={primaryMedia.url}
+                        alt={work.title}
+                        className="w-full h-48 object-cover"
+                      />
+                    )
+                  ) : (
+                    <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
+                      <span className="text-gray-500">No media</span>
+                    </div>
+                  )}
+                  <div className={`absolute top-2 right-2 px-2 py-1 rounded text-xs font-medium ${
+                    work.status === 'published' 
+                      ? 'bg-green-500 text-white' 
+                      : 'bg-gray-500 text-white'
+                  }`}>
+                    {work.status}
                   </div>
-                )}
-                <div className={`absolute top-2 right-2 px-2 py-1 rounded text-xs font-medium ${
-                  work.status === 'published' 
-                    ? 'bg-green-500 text-white' 
-                    : 'bg-gray-500 text-white'
-                }`}>
-                  {work.status}
                 </div>
-              </div>
               
               <div className="p-4">
                 <div className="mb-2">
@@ -269,7 +325,8 @@ const WorkPage = () => {
                 </div>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       )}
 

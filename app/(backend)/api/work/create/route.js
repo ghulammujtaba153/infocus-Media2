@@ -15,13 +15,11 @@ export async function POST(request) {
       videoLink, 
       videoLinks, 
       images, 
-      thumbnail,
       status
     } = formData;
 
-    // Basic validation - thumbnail not required for social media
-    const isThumbnailRequired = category !== 'social-media';
-    if (!title || !category || !client || (isThumbnailRequired && !thumbnail)) {
+    // Basic validation
+    if (!title || !category || !client) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
@@ -53,7 +51,6 @@ export async function POST(request) {
       videoLink: videoLink || '',
       videoLinks: videoLinks || [],
       images: images || [],
-      thumbnail: thumbnail || '',
       status: status || 'published'
     });
 

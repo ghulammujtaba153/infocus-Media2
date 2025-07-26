@@ -9,6 +9,7 @@ import {
   FiFolder,
   FiUsers,
   FiUser,
+  FiBriefcase,
 } from "react-icons/fi";
 import { useState } from "react";
 
@@ -26,7 +27,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
 
   const navItems = [
     { label: "Case Studies", href: "/portal", icon: <FiFolder size={20} /> },
-    { label: "Work", href: "/work-", icon: <FiFolder size={20} /> },
+    { label: "Work", href: "/work-", icon: <FiBriefcase size={20} /> },
     { label: "Users", href: "/users", icon: <FiUsers size={20} /> },
     { label: "Profile", href: "/profile", icon: <FiUser size={20} /> },
   ];

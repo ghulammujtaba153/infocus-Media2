@@ -18,9 +18,9 @@ import {
   FaArrowLeft,
   FaImage,
 } from "react-icons/fa";
-import { MdVideoLibrary } from "react-icons/md";
 import Notification from "@/components/Notification";
 import { useEditor } from "@tiptap/react";
+import upload from "@/utils/uploads";
 
 const EditorContent = dynamic(() => import("@tiptap/react").then(mod => mod.EditorContent), { ssr: false });
 
@@ -43,7 +43,6 @@ const CaseStudyPage = () => {
     description: "",
     content: "",
     image: "",
-    video: "",
   });
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -71,22 +70,23 @@ const CaseStudyPage = () => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const handleFileUpload = async (e, type = "image") => {
+  const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    const formData = new FormData();
-    formData.append("file", file);
+
+    showNotification("Uploading image...");
 
     try {
       setUploading(true);
-      const res = await axios.post("/api/upload", formData);
-      setData((prev) => ({ ...prev, [type]: res.data.url }));
-      showNotification(`${type === "image" ? "Image" : "Video"} uploaded successfully!`);
+      const url = await upload(file);
+      setData((prev) => ({ ...prev, image: url }));
+      showNotification("Image uploaded successfully!");
+      console.log(url);
       setError("");
     } catch {
-      setError(`${type === "image" ? "Image" : "Video"} upload failed`);
-      showNotification(`${type === "image" ? "Image" : "Video"} upload failed`, "error");
+      setError("Image upload failed in case study page");
+      showNotification("Image upload failed in case study", "error");
     } finally {
       setUploading(false);
     }
@@ -184,34 +184,13 @@ const CaseStudyPage = () => {
             <label className="flex items-center gap-2 cursor-pointer bg-gray-100 px-3 py-2 rounded hover:bg-gray-200 transition">
               <FaImage />
               <span>Choose Image</span>
-              <input type="file" accept="image/*" onChange={(e) => handleFileUpload(e, "image")} className="hidden" />
+              <input type="file" accept="image/*" onChange={handleFileUpload} className="hidden" />
             </label>
             {uploading && <p className="text-sm text-gray-500">Uploading...</p>}
           </div>
           {data.image && (
             <div className="mt-3">
               <img src={data.image} alt="Uploaded preview" className="h-32 rounded shadow" />
-            </div>
-          )}
-        </div>
-
-        {/* Video Upload */}
-        <div>
-          <label className="block mb-2 font-medium">Upload Video</label>
-          <div className="flex items-center gap-3">
-            <label className="flex items-center gap-2 cursor-pointer bg-gray-100 px-3 py-2 rounded hover:bg-gray-200 transition">
-              <MdVideoLibrary />
-              <span>Choose Video</span>
-              <input type="file" accept="video/*" onChange={(e) => handleFileUpload(e, "video")} className="hidden" />
-            </label>
-            {uploading && <p className="text-sm text-gray-500">Uploading...</p>}
-          </div>
-          {data.video && (
-            <div className="mt-3">
-              <video controls className="w-full max-w-md rounded shadow">
-                <source src={data.video} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
             </div>
           )}
         </div>

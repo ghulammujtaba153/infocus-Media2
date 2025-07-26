@@ -15,7 +15,6 @@ export async function PATCH(request) {
       videoLink, 
       videoLinks, 
       images, 
-      thumbnail,
       status
     } = await request.json();
 
@@ -52,7 +51,6 @@ export async function PATCH(request) {
         videoLink: videoLink || '',
         videoLinks: videoLinks || [],
         images: images || [],
-        thumbnail: thumbnail || '',
         status: status || 'published'
       },
       { new: true }

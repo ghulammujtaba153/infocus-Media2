@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { FiX, FiPlus, FiMinus, FiUpload } from "react-icons/fi";
+import upload from "@/utils/uploads";
 
 const categories = [
   { value: 'video-production', label: 'Video Production', description: '1 video link' },
@@ -20,11 +21,9 @@ const WorkModal = ({ isOpen, onClose, onSubmit, initialData, setNotification }) 
     videoLink: "",
     videoLinks: [""],
     images: [],
-    thumbnail: "",
     status: "published"
   });
 
-  const [uploadingThumbnail, setUploadingThumbnail] = useState(false);
   const [uploadingImages, setUploadingImages] = useState(false);
 
   useEffect(() => {
@@ -37,7 +36,6 @@ const WorkModal = ({ isOpen, onClose, onSubmit, initialData, setNotification }) 
         videoLink: initialData.videoLink || "",
         videoLinks: initialData.videoLinks?.length > 0 ? initialData.videoLinks : [""],
         images: initialData.images || [],
-        thumbnail: initialData.thumbnail || "",
         status: initialData.status || "published"
       });
     } else {
@@ -49,7 +47,6 @@ const WorkModal = ({ isOpen, onClose, onSubmit, initialData, setNotification }) 
         videoLink: "",
         videoLinks: [""],
         images: [],
-        thumbnail: "",
         status: "published"
       });
     }
@@ -83,33 +80,13 @@ const WorkModal = ({ isOpen, onClose, onSubmit, initialData, setNotification }) 
     }
   };
 
-  const handleFileUpload = async (file, type = 'thumbnail') => {
-    if (type === 'thumbnail') setUploadingThumbnail(true);
-    if (type === 'images') setUploadingImages(true);
+  const handleFileUpload = async (file) => {
+    setUploadingImages(true);
 
     try {
-      const formDataUpload = new FormData();
-      formDataUpload.append('file', file);
-
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formDataUpload,
-      });
-
-      const result = await response.json();
-      
-      if (response.ok) {
-        if (type === 'thumbnail') {
-          setFormData({ ...formData, thumbnail: result.url });
-        } else if (type === 'images') {
-          setFormData({ ...formData, images: [...formData.images, result.url] });
-        }
-      } else {
-        setNotification({
-          message: 'Upload failed: ' + result.error,
-          type: 'error'
-        });
-      }
+      const url = await upload(file);
+      setFormData({ ...formData, images: [...formData.images, url] });
+      console.log('Image uploaded:', url);
     } catch (error) {
       console.error('Upload error:', error);
       setNotification({
@@ -117,8 +94,7 @@ const WorkModal = ({ isOpen, onClose, onSubmit, initialData, setNotification }) 
         type: 'error'
       });
     } finally {
-      if (type === 'thumbnail') setUploadingThumbnail(false);
-      if (type === 'images') setUploadingImages(false);
+      setUploadingImages(false);
     }
   };
 
@@ -130,9 +106,8 @@ const WorkModal = ({ isOpen, onClose, onSubmit, initialData, setNotification }) 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Basic validation - thumbnail not required for social media
-    const isThumbnailRequired = formData.category !== 'social-media';
-    if (!formData.title || !formData.category || !formData.client || (isThumbnailRequired && !formData.thumbnail)) {
+    // Basic validation
+    if (!formData.title || !formData.category || !formData.client) {
       setNotification({
         message: 'Please fill in all required fields',
         type: 'error'
@@ -276,40 +251,7 @@ const WorkModal = ({ isOpen, onClose, onSubmit, initialData, setNotification }) 
             </div>
           </div>
 
-          {/* Thumbnail Upload - Not required for social media */}
-          {formData.category !== 'social-media' && (
-            <div>
-              <label className="block mb-1 text-sm font-medium text-gray-700">
-                Thumbnail *
-              </label>
-              <div className="flex items-center gap-4">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    if (e.target.files[0]) {
-                      handleFileUpload(e.target.files[0], 'thumbnail');
-                    }
-                  }}
-                  className="hidden"
-                  id="thumbnail-upload"
-                />
-                <label
-                  htmlFor="thumbnail-upload"
-                  className="cursor-pointer flex items-center gap-2 px-4 py-2 border border-gray-300 rounded hover:bg-gray-50"
-                >
-                  <FiUpload size={16} />
-                  {uploadingThumbnail ? 'Uploading...' : 'Upload Thumbnail'}
-                </label>
-                {formData.thumbnail && (
-                  <div className="flex items-center gap-2">
-                    <img src={formData.thumbnail} alt="Thumbnail" className="w-12 h-12 object-cover rounded" />
-                    <span className="text-sm text-green-600">✓ Uploaded</span>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
+
 
           {/* Category-specific fields */}
           {selectedCategory && (
@@ -389,7 +331,7 @@ const WorkModal = ({ isOpen, onClose, onSubmit, initialData, setNotification }) 
                         multiple
                         onChange={(e) => {
                           Array.from(e.target.files).forEach(file => {
-                            handleFileUpload(file, 'images');
+                            handleFileUpload(file);
                           });
                         }}
                         className="hidden"
