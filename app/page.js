@@ -13,43 +13,21 @@ import TeamSection from "@/components/home/team/TeamSection";
 import TopSection from "@/components/home/TopSection";
 import TransformGlobe from "@/components/home/TransformGlobe";
 import WorkSection from "@/components/home/WorkSection";
-import { useEffect, useRef } from "react";
+import Loader from "@/components/Loader";
+
 
 export default function Home() {
   
 
   return (
     <div className="relative w-full ">
-
-      
-      
       <HeroSection/>
-     
-      
       <TopSection/> 
       <WorkSection/>
       <SpotLightClients/> 
-      <ExpertiseSection/>
-      {/* <CaseStudies/> */}
-
-     
-        <SheikhCaseStudiesContainer />
-      
-
-      
-        
-     
-     
-        <TransformGlobe/>
-
-      
-
-      
-      {/* <div className="relative">
-        <InsightGlobe/>
-      </div> */}
-      
-      
+      <ExpertiseSection/>     
+      <SheikhCaseStudiesContainer />
+      <TransformGlobe/>    
       <TeamSection/>
       <Location/>
       <FooterGlobe/>

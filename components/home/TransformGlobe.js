@@ -32,7 +32,7 @@ const TransformGlobe = () => {
         scrollTrigger: {
           trigger: section,
           start: "top top", // Changed from "top 80px" to "top center"
-          end: "+=2000", // 
+          end: "+=4000", // 
           scrub: 1,
           pin: true,
           anticipatePin: 1,
